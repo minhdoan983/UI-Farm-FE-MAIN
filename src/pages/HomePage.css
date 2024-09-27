@@ -1,0 +1,6 @@
+.cardImg:hover{
+    transition: 2s;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+}

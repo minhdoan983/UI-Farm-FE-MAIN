@@ -1,0 +1,139 @@
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFEBCD;
+    box-sizing: border-box;
+}
+
+.UI-farm-icon {
+    width: 100%;
+    max-width: 300px; 
+    height: auto;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100&display=swap');
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #A0522D;
+    position: relative;
+}
+
+.title {
+    font-family: "Playwrite CU", cursive;
+    margin-bottom: 1vw;
+    font-size: 2rem; 
+}
+
+.email-login, .password-group .password-login {
+    color: #A0522D;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    border-bottom: 2px solid white;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 228, 181, 0.9);
+}
+
+.btn.log-in,
+.btn.register {
+    width: 100%;
+    max-width: 400px;
+    height: 3rem;
+    margin: 5px 0;
+    border-radius: 10px;
+    border: none;
+    background: #FFE4B5; 
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #A0522D; 
+    font-size: 1rem;
+    font-family: inherit; 
+}
+
+.btn.log-in:hover,
+.btn.register:hover {
+    background: #FFDAB9; 
+    transform: scale(1.05); 
+    
+}
+
+.error {
+    font-size: 1rem;
+}
+
+.password-group {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.icon {
+    background: none;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+} 
+
+.forget-password {
+    color: #A0522D;
+    position: absolute;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: bold;
+    bottom: -10%;
+    right: 20%;
+    font-family: "Playwrite CU", cursive;
+}
+
+::placeholder {
+    color: #A0522D;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .email-login, .password-group .password-login,
+    .btn.log-in, .btn.register {
+        max-width: 90%;
+    }
+
+    .forget-password {
+        right: 10%;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.2rem;
+    }
+
+    .email-login, .password-group .password-login,
+    .btn.log-in, .btn.register {
+        max-width: 95%;
+    }
+
+    .forget-password {
+        right: 5%;
+    }
+}
