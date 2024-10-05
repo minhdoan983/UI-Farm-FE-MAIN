@@ -28,13 +28,11 @@ export const createCartItemFromLocal = createAsyncThunk(
     async (_, { dispatch }) => {
         const itemFromLocal = JSON.parse(localStorage.getItem('cart')) || [];
 
-        // Dùng Promise.all để gửi các mục trong localStorage song song
         const result = await Promise.all(
             itemFromLocal.map(async (item) => {
                 console.log({ itemId: item.itemId, quantity: item.quantity, price: item.price });
-                // Dispatch createCartItem cho từng item
                 const resultAction = await dispatch(createCartItem({ itemId: item.itemId, quantity: item.quantity, price: item.price }));
-                return resultAction.payload; // Trả về payload của từng CartItem
+                return resultAction.payload; 
             })
         );
         console.log(result, 'dagidbjkabsdkjasb')

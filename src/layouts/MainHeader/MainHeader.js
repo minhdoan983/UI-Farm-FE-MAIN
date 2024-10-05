@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import './MainHeader.css';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllItems, fetchItemBySearch } from '../../features/item/itemSlice';
-import { Badge, IconButton, Menu, MenuItem, Grid } from '@mui/material';
+import { Badge } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { getCart } from '../../features/cart/cartSlice';
 import useAuth from '../../hooks/useAuth';
 import PersonIcon from '@mui/icons-material/Person';
 import { getPayment } from '../../features/payment/paymentSlice';
@@ -26,6 +24,7 @@ function MainHeader() {
   const count = isAuthenticated ? cart : JSON.parse(localStorage.getItem('cart'));
   const [isAdmin, setIsAdmin] = useState(false);
   const dispatch = useDispatch();
+  const location = useLocation(); 
 
   useEffect(() => {
     if (user?.role === 'admin') setIsAdmin(true);
@@ -107,6 +106,14 @@ function MainHeader() {
     navigate('/profile');
     handleUserMenuClose();
   };
+  const handleManageOrderPage = () => {
+    navigate('/manageorderpage');
+    handleUserMenuClose();
+  };
+  const handleEditItem = () => {
+    navigate('/edititem');
+    handleUserMenuClose();
+  };
 
   return (
     <header className={`header ${isScrollingUp ? '' : 'header-hidden'}`}>
@@ -131,16 +138,17 @@ function MainHeader() {
                 <ShoppingCartIcon sx={{ "&:hover": { cursor: 'pointer' } }} fontSize='large' onClick={handleOpenCart} />
               </Badge>
             </div>
-
-            <div className="search-container">
-              <SearchIcon fontSize='large' onClick={toggleSearch} />
-              <input
-                type="text"
-                className={`search-input ${isSearchOpen ? 'open' : ''}`}
-                placeholder="Tìm kiếm..."
-                onChange={handleSearchChange}
-              />
-            </div>
+            {location.pathname === '/item' && ( 
+              <div className="search-container">
+                <SearchIcon fontSize='large' onClick={toggleSearch} />
+                <input
+                  type="text"
+                  className={`search-input ${isSearchOpen ? 'open' : ''}`}
+                  placeholder="Tìm kiếm..."
+                  onChange={handleSearchChange}
+                />
+              </div>
+            )}
 
             {isAuthenticated ? (
               <div className="user-menu">
@@ -151,12 +159,14 @@ function MainHeader() {
                   <div className="dropdown-menu">
                     {isAdmin ? (
                       <>
-                        <button onClick={handleViewProfile}>Quản Lí Sản Phẩm</button>
-                        <button onClick={handleViewProfile}>Quản Lí Đơn Hàng</button>
+                        <button onClick={handleEditItem}>Quản Lí Sản Phẩm</button>
+                        <button onClick={handleManageOrderPage}>Quản Lí Đơn Hàng</button>
                       </>
                     ) : null}
                     <button onClick={handleViewProfile}>Thông Tin Cá Nhân</button>
-                    <button onClick={handleViewOrders}>Xem Đơn Hàng</button>
+                    {!isAdmin ? (
+                      <button onClick={handleViewOrders}>Xem Đơn Hàng</button>
+                    ): null}
                     <button onClick={handleLogout}>Đăng Xuất</button>
                   </div>
                 )}

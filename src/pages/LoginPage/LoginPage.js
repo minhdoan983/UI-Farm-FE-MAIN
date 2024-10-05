@@ -64,18 +64,41 @@ function LoginPage() {
   };
 
   return (
-    <Container maxWidth="xs" > 
+    <Container 
+      maxWidth="sm" 
+      sx={{ 
+        mt: { xs: 4, sm: 6 }, 
+        mb: { xs: 4, sm: 6 },
+        px: { xs: 2, sm: 4 },
+        width:{sm:'400px'}
+      }} 
+    > 
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
         sx={{
-          mt: 3,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          boxShadow: 3,
+          padding: { xs: 3, sm: 4 },
+          borderRadius: 2,
+          backgroundColor: '#fff',
         }}
       >
-        <Typography variant="h4" component="h1" align="center" gutterBottom>
+        <Typography 
+          variant="h4" 
+          component="h1" 
+          align="center" 
+          gutterBottom 
+          fontFamily={'Playwrite CU'} 
+          onClick={() => navigate('/')} 
+          sx={{
+            cursor: 'pointer',
+            fontSize: { xs: '1.8rem', sm: '2.4rem' },
+            mb: { xs: 2, sm: 3 }
+          }}
+        >
           Ui Farm
         </Typography>
 
@@ -93,62 +116,78 @@ function LoginPage() {
           {...register("email")}
           error={!!errors.email}
           helperText={errors.email?.message}
+          sx={{
+            '& .MuiInputLabel-root': { fontSize: { xs: '0.9rem', sm: '1rem' } },
+            '& .MuiInputBase-input': { fontSize: { xs: '0.9rem', sm: '1rem' } },
+          }}
         />
 
         <Box sx={{ position: "relative", width: '100%' }}>
           <TextField
             fullWidth
-            label="Password"
+            label="Mật khẩu"
             type={showPassword ? "text" : "password"}
             variant="outlined"
             margin="normal"
             {...register("password")}
             error={!!errors.password}
             helperText={errors.password?.message}
+            sx={{
+              '& .MuiInputLabel-root': { fontSize: { xs: '0.9rem', sm: '1rem' } },
+              '& .MuiInputBase-input': { fontSize: { xs: '0.9rem', sm: '1rem' } },
+            }}
           />
           <IconButton
             onClick={() => setShowPassword(!showPassword)}
-            sx={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}
+            sx={{ 
+              position: "absolute", 
+              top: "50%", 
+              right: { xs: "8px", sm: "12px" }, 
+              transform: "translateY(-50%)" 
+            }}
           >
             {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
           </IconButton>
         </Box>
 
-        <Grid container spacing={1} sx={{ mt: 2, width: '100%' }}> 
-          <Grid item xs={12} sm={6}>
+        <Grid container spacing={2} sx={{ mt: 2, width: '100%' }}> 
+          <Grid item xs={12} sm={12}>
             <Button
               fullWidth
               variant="contained"
               color="primary"
               type="submit"
               className="btn log-in"
+              sx={{ 
+                py: { xs: 1, sm: 1.5 },
+                fontSize: { xs: '0.9rem', sm: '1rem' }
+              }}
             >
               Đăng Nhập
             </Button>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Button
               fullWidth
               variant="outlined"
               color="secondary"
               onClick={handleRegister}
               className="btn register"
+              sx={{ 
+                py: { xs: 1, sm: 1.5 },
+                fontSize: { xs: '0.9rem', sm: '1rem' }
+              }}
             >
               Đăng Kí
             </Button>
           </Grid>
         </Grid>
 
-        {/* <Box sx={{ mt: 2, textAlign: 'center', width: '100%' }}>
-          <Button href="#" variant="text" className="forget-password">
-            Quên mật khẩu?
-          </Button>
-        </Box> */}
-
-        <Box sx={{ mt: 2, textAlign: 'center', width: '100%' }}>
+        <Box sx={{ mt: 3, textAlign: 'center', width: '100%' }}>
           <GoogleLogin
             onSuccess={handleGoogleLoginSuccess}
             onError={handleGoogleLoginFailure}
+            size="medium"
           />
         </Box>
       </Box>

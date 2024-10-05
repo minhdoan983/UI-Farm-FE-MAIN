@@ -47,12 +47,14 @@ export const updateUserProfile =
     userId,
     name,
     avatarUrl,
+    phone
   }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const data = {
         name,
+        phone
       };
       if (avatarUrl instanceof File) {
         const imageUrl = await cloudinaryUpload(avatarUrl);

@@ -1,13 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Typography, Box, Button, Grid, IconButton, Collapse, CircularProgress } from '@mui/material';
-import { ExpandMore, ExpandLess } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { getItemInCart, removeFromCart, updateCartQuantity } from '../../features/cart/cartSlice';
-import useAuth from '../../hooks/useAuth';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { fetchItemForCart } from '../../features/item/itemSlice';
-import CheckoutPage from '../CheckoutPage/CheckoutPage';
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  Typography,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Collapse,
+  CircularProgress,
+} from "@mui/material";
+import { ExpandMore, ExpandLess } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import {
+  getItemInCart,
+  removeFromCart,
+  updateCartQuantity,
+} from "../../features/cart/cartSlice";
+import useAuth from "../../hooks/useAuth";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { fetchItemForCart } from "../../features/item/itemSlice";
+import CheckoutPage from "../CheckoutPage/CheckoutPage";
 
 function CartPage() {
   const { isAuthenticated, user } = useAuth();
@@ -24,7 +36,7 @@ function CartPage() {
       let listCartItem = [];
 
       if (!isAuthenticated) {
-        const storedCart = localStorage.getItem('cart');
+        const storedCart = localStorage.getItem("cart");
         listCartItem = storedCart ? JSON.parse(storedCart) : [];
       } else {
         const cartFromServer = await dispatch(getItemInCart(user._id)).unwrap();
@@ -46,21 +58,67 @@ function CartPage() {
   }, [dispatch, isAuthenticated]);
 
   const handleQuantityChange = (itemId, newQuantity) => {
-    if (newQuantity > 0) {
-      dispatch(updateCartQuantity({ itemId, quantity: newQuantity }));
-
-      const updatedCart = cartItems.map(item =>
-        item.itemId === itemId ? { ...item, quantity: newQuantity } : item
+    if (isAuthenticated) {
+      if (newQuantity > 0) {
+        dispatch(
+          updateCartQuantity({
+            userId: user._id,
+            itemId,
+            quantity: newQuantity,
+          })
+        ).then((action) => {
+          if (action.type === "cart/updateCartQuantity/fulfilled") {
+            setCartItems((prevItems) =>
+              prevItems.map((item) =>
+                item.itemId === itemId
+                  ? { ...item, quantity: newQuantity }
+                  : item
+              )
+            );
+          }
+        });
+      }
+    } else {
+      let currentCart = localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart"))
+        : [];
+      const existingItem = currentCart.find(
+        (cartItem) => cartItem.itemId === itemId
       );
-      setCartItems(updatedCart);
+
+      if (existingItem) {
+        if (newQuantity > 0) {
+          existingItem.quantity = newQuantity;
+        } else {
+          currentCart = currentCart.filter(
+            (cartItem) => cartItem.itemId !== itemId
+          );
+        }
+      }
+
+      localStorage.setItem("cart", JSON.stringify(currentCart));
+      setCartItems(currentCart);
     }
   };
-
   const handleRemoveItem = (itemId) => {
-    dispatch(removeFromCart(itemId));
-
-    const updatedCart = cartItems.filter(item => item.itemId !== itemId);
-    setCartItems(updatedCart);
+    if (isAuthenticated) {
+      dispatch(removeFromCart({ userId: user._id, itemId })).then((action) => {
+        if (action.type === "cart/removeFromCart/fulfilled") {
+          setCartItems((prevItems) =>
+            prevItems.filter((item) => item.itemId !== itemId)
+          );
+        }
+      });
+    } else {
+      let currentCart = localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart"))
+        : [];
+      currentCart = currentCart.filter(
+        (cartItem) => cartItem.itemId !== itemId
+      );
+      localStorage.setItem("cart", JSON.stringify(currentCart));
+      setCartItems(currentCart);
+    }
   };
 
   const toggleExpand = (index) => {
@@ -68,7 +126,10 @@ function CartPage() {
   };
 
   const calculateTotalPrice = () => {
-    return cartItems.reduce((total, cartItem) => total + cartItem.price * cartItem.quantity, 0);
+    return cartItems.reduce(
+      (total, cartItem) => total + cartItem.price * cartItem.quantity,
+      0
+    );
   };
 
   const handleCheckout = () => {
@@ -77,21 +138,45 @@ function CartPage() {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
         <CircularProgress />
       </Box>
     );
   }
 
   return (
-    <Box sx={{ padding: { xs: '10px', md: '80px' }, display: 'flex', justifyContent: 'center' }}>
-      <Box sx={{ maxWidth: '800px', width: '100%', backgroundColor: 'white', borderRadius: '8px', boxShadow: 3 }}>
-        <Typography variant="h4" sx={{ marginBottom: '20px', textAlign: 'center' }}>
+    <Box
+      sx={{
+        padding: { xs: "10px", md: "80px" },
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <Box
+        sx={{
+          maxWidth: "800px",
+          width: "100%",
+          backgroundColor: "white",
+          borderRadius: "8px",
+          boxShadow: 3,
+        }}
+      >
+        <Typography
+          variant="h4"
+          sx={{ marginBottom: "20px", textAlign: "center" }}
+        >
           Shopping Cart
         </Typography>
 
         {cartItems.length === 0 ? (
-          <Typography variant="body1" sx={{ textAlign: 'center' }}>
+          <Typography variant="body1" sx={{ textAlign: "center" }}>
             No items in the cart.
           </Typography>
         ) : (
@@ -100,34 +185,43 @@ function CartPage() {
               <Grid item key={index}>
                 <Box
                   sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', md: 'row' },
-                    alignItems: 'center',
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    padding: '10px',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                    maxWidth: '600px',
-                    margin: '0 auto',
-                    position: 'relative',
+                    display: "flex",
+                    flexDirection: { xs: "column", md: "row" },
+                    alignItems: "center",
+                    border: "1px solid #ddd",
+                    borderRadius: "8px",
+                    padding: "10px",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                    maxWidth: "600px",
+                    margin: "0 auto",
+                    position: "relative",
                   }}
                 >
-                  <Box sx={{ marginRight: { md: '20px' }, marginBottom: { xs: '10px', md: '0' } }}>
+                  <Box
+                    sx={{
+                      marginRight: { md: "20px" },
+                      marginBottom: { xs: "10px", md: "0" },
+                    }}
+                  >
                     <img
                       src={item.imgUrl[0]}
                       alt={item.name}
                       style={{
-                        width: '80px',
-                        height: '80px',
-                        objectFit: 'cover',
-                        borderRadius: '8px',
+                        width: "80px",
+                        height: "80px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
                       }}
                     />
                   </Box>
 
                   <Box sx={{ flex: 1 }}>
-                    <Box display="flex" justifyContent="space-between" alignItems="center">
-                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                         {item.name}
                       </Typography>
                       <IconButton onClick={() => toggleExpand(index)}>
@@ -138,41 +232,60 @@ function CartPage() {
                     <Typography
                       variant="h6"
                       sx={{
-                        fontWeight: 'bold',
-                        position: 'absolute',
-                        bottom: '10px',
-                        right: '10px',
+                        fontWeight: "bold",
+                        position: "absolute",
+                        bottom: "10px",
+                        right: "10px",
                       }}
                     >
-                      {`${item.quantity} x ${item.price.toLocaleString('vi-VN')} đ`}
+                      {`${item.quantity} x ${item.price.toLocaleString(
+                        "vi-VN"
+                      )} đ`}
                     </Typography>
 
-                    <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: "10px",
+                      }}
+                    >
                       <Button
                         variant="outlined"
                         size="small"
-                        onClick={() => handleQuantityChange(item.itemId, item.quantity - 1)}
+                        onClick={() =>
+                          handleQuantityChange(item.itemId, item.quantity - 1)
+                        }
                       >
                         -
                       </Button>
-                      <Typography sx={{ margin: '0 10px' }}>{item.quantity}</Typography>
+                      <Typography sx={{ margin: "0 10px" }}>
+                        {item.quantity}
+                      </Typography>
                       <Button
                         variant="outlined"
                         size="small"
-                        onClick={() => handleQuantityChange(item.itemId, item.quantity + 1)}
+                        onClick={() =>
+                          handleQuantityChange(item.itemId, item.quantity + 1)
+                        }
                       >
                         +
                       </Button>
                     </Box>
 
-                    <Box sx={{ marginTop: '10px' }}>
-                      <Button variant="contained" color="error" size="small" onClick={() => handleRemoveItem(item.itemId)}>
+                    <Box sx={{ marginTop: "10px" }}>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        size="small"
+                        onClick={() => handleRemoveItem(item.itemId)}
+                      >
                         Remove
                       </Button>
                     </Box>
 
                     <Collapse in={expanded[index]} timeout="auto" unmountOnExit>
-                      <Typography variant="body2" sx={{ marginTop: '10px' }}>
+                      <Typography variant="body2" sx={{ marginTop: "10px" }}>
                         Material: {item.material}
                       </Typography>
                       <Typography variant="body2">
@@ -187,21 +300,21 @@ function CartPage() {
         )}
 
         {cartItems.length > 0 && (
-          <Box sx={{ textAlign: 'center', marginTop: '20px' }}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-              Total: {calculateTotalPrice().toLocaleString('vi-VN')} đ
+          <Box sx={{ textAlign: "center", marginTop: "20px" }}>
+            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+              Total: {calculateTotalPrice().toLocaleString("vi-VN")} đ
             </Typography>
             {!checkout ? (
               <Button
                 variant="contained"
                 onClick={handleCheckout}
                 sx={{
-                  backgroundColor: '#f39c12',
-                  color: 'white',
-                  padding: '10px 20px',
-                  marginTop: '10px',
-                  '&:hover': {
-                    backgroundColor: '#e67e22',
+                  backgroundColor: "#f39c12",
+                  color: "white",
+                  padding: "10px 20px",
+                  marginTop: "10px",
+                  "&:hover": {
+                    backgroundColor: "#e67e22",
                   },
                 }}
               >

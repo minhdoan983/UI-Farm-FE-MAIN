@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { CardMedia, Typography, Stack, Box, Button, Divider, TextField, MenuItem, Grid } from '@mui/material';
+import { CardMedia, Typography, Stack, Box, Button, Divider, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchItemById } from '../../features/item/itemSlice';
 import { addItem } from '../../features/cart/cartSlice'; // Import action to update quantity
@@ -13,13 +13,11 @@ function DetailPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const item = useSelector((state) => state.item.item);
-  const cart = useSelector((state) => state.cart.cart);
   const [mainImage, setMainImage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [material, setMaterial] = useState('');
   const [color, setColor] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
-  console.log(material,color)
   useEffect(() => {
     dispatch(fetchItemById(id));
   }, [dispatch, id]);
@@ -43,6 +41,7 @@ function DetailPage() {
       price: item.price,
       material,
       color,
+      imgUrl:item.imgUrl[0]
     };
     if (isAuthenticated) {
       await dispatch(addItem({ userId: user._id, itemId: item._id, quantity: quantity, price: item.price,material:material,color:color }))

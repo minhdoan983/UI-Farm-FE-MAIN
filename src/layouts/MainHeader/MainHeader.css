@@ -31,8 +31,9 @@ body {
   }
   
   .logo {
-    font-size: 24px;
+    font-size: 16px;
     color: #A0522D;
+    font-family: 'Playwrite CU';
   }
   .logo:hover{
     cursor: pointer;
@@ -76,6 +77,7 @@ body {
   .search-container {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
   }
   .search-container:hover{
     cursor: pointer;
@@ -191,11 +193,11 @@ body {
   
   @media (max-width: 480px) {
     .logo {
-      font-size: 18px;
+      font-size: 12px;
     }
-  
     .search-input.open {
-      width: 150px;
+
+      width: 70px;
     }
   }
   

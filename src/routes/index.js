@@ -16,6 +16,8 @@ import ProfilePage from '../pages/ProfilePage/ProfilePage.js'
 import OrderPage from '../pages/OrderPage/OrderPage.js'
 import RegisterPage from '../pages/RegisterPage/RegisterPage.js'
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage.js'
+import EditItemPage from '../pages/EditItemPage/EditItemPage.js'
+import ManageOrderPage from '../pages/ManageOrderPage/ManageOrderPage.js'
 
 function Router() {
     return (
@@ -43,6 +45,8 @@ function Router() {
                 <Route path='/store' element={<StorePage />} />
                 <Route path='/policy' element={<PolicyPage />} />
                 <Route path='/contact' element={<ContactPage />} />
+                <Route path='/edititem' element={<EditItemPage />} />
+                <Route path='/manageorderpage' element={<ManageOrderPage />} />
             </Route>
             <Route element={<BlankLayout />}>
                 <Route path="/login" element={<LoginPage />} />
