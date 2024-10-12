@@ -27,18 +27,15 @@ function MainSidebar({ currentPage, setCurrentPage }) {
   const handleColorChange = (checkedValues) => {
     setSelectedColors(checkedValues);
     setCurrentPage(1);
-    console.log("Selected colors:", checkedValues);
   };
   const handleGalleryChange = (choosedValues) => {
     setSelectedGallery(choosedValues);
     setCurrentPage(1);
-    console.log("Selected colors:", choosedValues);
   };
   const handlePriceChange = (value) => {
     setCurrentPage(1);
     const [min, max] = value.split("-").map(Number);
     setSelectedPrice({ min, max });
-    console.log("Selected price range:", { min, max });
   };
   const handleClear = () => {
     setSelectedColors([]);
@@ -63,8 +60,7 @@ function MainSidebar({ currentPage, setCurrentPage }) {
     };
     dispatch(filterItems(queryValue));
 
-    console.log("Dispatching filter:", queryValue);
-  }, [selectedColors, selectedGallery, selectedPrice, currentPage, dispatch]);
+  },[selectedColors, selectedGallery, selectedPrice, currentPage, dispatch]);
 
   const siderStyle = {
     height: "400px",
@@ -76,7 +72,6 @@ function MainSidebar({ currentPage, setCurrentPage }) {
     paddingTop: 80,
     borderRadius: "10px",
     padding: 20,
-    Flex: "none",
   };
   const [collapsed, setCollapsed] = useState(true);
   const [drawerVisible, setDrawerVisible] = useState(false);

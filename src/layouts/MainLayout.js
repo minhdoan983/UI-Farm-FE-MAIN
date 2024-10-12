@@ -10,7 +10,6 @@ function MainLayout() {
             display="flex"
             flexDirection="column" 
             sx={{
-                width: '100%', 
                 minHeight: '100vh', 
             }}
         >

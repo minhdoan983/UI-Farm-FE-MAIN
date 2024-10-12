@@ -161,7 +161,7 @@ function AuthProvider({ children }) {
 
     reduxDispatch(getItemInCart(user._id));
 
-    callback();
+    if (callback) callback();
   };
   const logout = async (callback) => {
     setSession(null);

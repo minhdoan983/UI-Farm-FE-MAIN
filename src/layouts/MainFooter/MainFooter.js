@@ -11,7 +11,7 @@ const MainFooter = () => {
         container 
         spacing={4} 
         sx={{ 
-          maxWidth: '1200px', 
+          maxWidth: '100%', 
           margin: '0 auto',
           textAlign: { xs: 'center', sm: 'left' } 
         }}

@@ -61,7 +61,6 @@ function HomePage() {
               gutterBottom
               variant="h4"
               component="div"
-              align="center"
               color="#A0522D"
               style={{
                 fontWeight: "bold",
@@ -120,7 +119,7 @@ function HomePage() {
                         {e.name}
                       </Typography>
                       {e?.color?.map((option, index) => (
-                        <Tag>{option}</Tag>
+                        <Tag key={index}>{option}</Tag>
                       ))}
                     </CardContent>
                     <CardActions sx={{ padding: "16px" }}>

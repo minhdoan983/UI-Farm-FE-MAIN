@@ -8,14 +8,11 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import MainSidebar from "../layouts/MainSidebar/MainSidebar";
-import apiService from "../app/apiService";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllItems, fetchItemById } from "../features/item/itemSlice";
-import { Outlet, useNavigate } from "react-router-dom";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
-import useAuth from "../hooks/useAuth";
 import { ConfigProvider, Pagination, Tag } from "antd";
 
 function ItemPage() {
@@ -80,7 +77,7 @@ function ItemPage() {
                     {e.name}
                   </Typography>
                   {e?.color?.map((option, index) => (
-                    <Tag>{option}</Tag>
+                    <Tag key={index}>{option}</Tag>
                   ))}
                 </CardContent>
                 <CardActions sx={{ padding: "10px" }}>

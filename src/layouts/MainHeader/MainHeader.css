@@ -4,7 +4,7 @@ body {
   }
   
   header {
-    width: 100%;
+    width: 100vw;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: fixed;
@@ -193,11 +193,14 @@ body {
   
   @media (max-width: 480px) {
     .logo {
-      font-size: 12px;
+      font-size: 8px;
     }
     .search-input.open {
 
       width: 70px;
+    }
+    .login-btn{
+      font-size: 12px;
     }
   }
   
