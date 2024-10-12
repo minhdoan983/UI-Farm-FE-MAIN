@@ -24,6 +24,13 @@ export const getPayment = createAsyncThunk(
         return response.data
     },
 )
+export const getPaymentByUser = createAsyncThunk(
+    'payment/getPaymentByUser',
+    async (userId) => {
+        const response = await apiService.get(`/payment/user/${userId}`);
+        return response.data;
+    }
+);
 
 const initialState = {
     orderId:'',
@@ -75,6 +82,19 @@ const paymentSlice = createSlice({
                 state.isError = false
             })
             .addCase(getPayment.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+            })
+            .addCase(getPaymentByUser.pending, (state, action) => {
+                state.isLoading = true
+                state.isError = false
+            })
+            .addCase(getPaymentByUser.fulfilled, (state, action) => {
+                state.payment=action.payload
+                state.isLoading = false
+                state.isError = false
+            })
+            .addCase(getPaymentByUser.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
             })
