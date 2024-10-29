@@ -1,3 +1,36 @@
+
+# E-Commerce Website 
+
+## UI Farm Store
+My store allows users to choose products and payment with Paypal. Store owners can manage goods such as adding, editing or deleting items
+### User Story
+#### Background
+UI Farm is an online shopping website. When entering the website, users can see the store's products. The store website is divided into 2 main functions for consumers or store managers.
+The store manager role can add items or edit items. View customer order list. 
+The customer role can add favorite products to the cart and then go to the step of choosing payment with Paypal.
+#### Authentication
+As a user, I can sign in with my email and password.
+As a user, I can register for a new account with email and password.
+As a user, I can stay signed in after refreshing the page.
+As a user, I can sign in with Google Account.
+#### Store Manager
+As a store manager, I can view list items.
+As a store manager, I can view detail item.
+As a store manager, I can add items or edit items.
+As a store manager, I can view customer order list.
+#### Customer
+As a customer, I can view list items.
+As a customer, I can view detail item.
+As a customer, I can add items to the cart.
+As a customer, I can choose payment with Paypal.
+As a customer, I can view my order.
+#### Cart
+As a user, I can view my cart.
+As a user, I can have only one cart.
+#### Item
+As a user, I can view detail item.
+#### Payment
+As a user, I can payment with Paypal
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,35 +101,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# E-Commerce Website 
-
-## UI Farm Store
-My store allows users to choose products and payment with Paypal. Store owners can manage goods such as adding, editing or deleting items
-### User Story
-#### Background
-UI Farm is an online shopping website. When entering the website, users can see the store's products. The store website is divided into 2 main functions for consumers or store managers.
-The store manager role can add items or edit items. View customer order list. 
-The customer role can add favorite products to the cart and then go to the step of choosing payment with Paypal.
-#### Authentication
-As a user, I can sign in with my email and password.
-As a user, I can register for a new account with email and password.
-As a user, I can stay signed in after refreshing the page.
-As a user, I can sign in with Google Account.
-#### Store Manager
-As a store manager, I can view list items.
-As a store manager, I can view detail item.
-As a store manager, I can add items or edit items.
-As a store manager, I can view customer order list.
-#### Customer
-As a customer, I can view list items.
-As a customer, I can view detail item.
-As a customer, I can add items to the cart.
-As a customer, I can choose payment with Paypal.
-As a customer, I can view my order.
-#### Cart
-As a user, I can view my cart.
-As a user, I can have only one cart.
-#### Item
-As a user, I can view detail item.
-#### Payment
-As a user, I can payment with Paypal
