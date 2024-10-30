@@ -1,6 +1,7 @@
 
 # E-Commerce Website 
-
+Deploy FE : https://ui-farm.netlify.app/
+BE: https://ui-farm-be-main-1.onrender.com/ui-farm
 ## UI Farm Store
 My store allows users to choose products and payment with Paypal. Store owners can manage goods such as adding, editing or deleting items
 ### User Story
